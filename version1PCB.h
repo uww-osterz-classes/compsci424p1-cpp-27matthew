@@ -2,6 +2,7 @@
 #define VERSION1PCB_H
 
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 class Version1PCB {
