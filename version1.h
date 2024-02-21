@@ -93,15 +93,17 @@ class Version1 {
       // but it should not halt
       if(pcbArray[targetPid] != NULL){
         while(!pcbArray[targetPid]->getChildren()->empty()){
-            destroy(pcbArray[targetPid]->getChildren()->back());
+            destroy(pcbArray[targetPid]->getChildren()->front()); // back?
         }
-        if(pcbArray[targetPid]->getParent() != -1){
-            pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
-        }
+      }
 
-        delete pcbArray[targetPid];
-        pcbArray[targetPid] = NULL;
-        
+      if(pcbArray[targetPid]->getParent() != -1 && pcbArray[targetPid] != nullptr){
+         pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
+      }
+
+      if(pcbArray[targetPid] != nullptr){
+         delete pcbArray[targetPid];
+         pcbArray[targetPid] = NULL;
       }
 
         // create 0
