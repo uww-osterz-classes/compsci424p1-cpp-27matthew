@@ -1,5 +1,5 @@
 /* COMPSCI 424 Program 1
-   Name:
+   Name: Matthew Buske
    
    version1.h: contains the code to implement the process creation
    hierarchy for Version 1, which uses linked lists.
@@ -29,12 +29,15 @@
 // Remember: use <angle brackets> for standard C++ headers/libraries
 // and "double quotes" for headers in the same directory as this file.
 #include <iostream>
+#include "version1PCB.h"
 
 using namespace std; // I normally use this, but feel free to delete it
 
+const int MAX_SIZE_1 = 16;
+
 class Version1 {
    private: // it's good OOP practice to make data members private
-
+   Version1PCB** pcbArray;
 
    public:  // all methods are normally public
      Version1() { 
@@ -42,6 +45,8 @@ class Version1 {
       initialize the PCB array, create the PCB for process 0, and do
       any other initialization that is needed. 
       */ 
+      pcbArray = new Version1PCB * [MAX_SIZE_1] {};
+      pcbArray[0] = new Version1PCB(-1);
      }
 
      ~Version1() {
@@ -49,6 +54,7 @@ class Version1 {
       the lifetime of this object, and you haven't yet "delete"d
       it, "delete" it (using the "delete" keyword) here.
       */
+      delete[] pcbArray;
      }
 
      /* Creates a new child process of process with ID parentPid. 
@@ -57,6 +63,15 @@ class Version1 {
       // If parentPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt.
+      if(pcbArray[parentPid] != NULL){
+         for(int i = 0; i < MAX_SIZE_1; i++){
+            if(pcbArray[i] == NULL){
+               pcbArray[i] = new Version1PCB(parentPid);
+               pcbArray[parentPid]->addChild(i);
+               break;
+            }
+         }
+      }
 
       // Assuming you've found the PCB for parentPid in the PCB array:
       // 1. Allocate and initialize a free PCB object from the array
@@ -76,6 +91,14 @@ class Version1 {
       // If targetPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt
+      if(pcbArray[targetPid] != NULL){
+         while(!pcbArray[targetPid]->getChildren()->empty()){
+            destroy(pcbArray[targetPid]->getChildren()->front());
+         }
+         pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
+         delete pcbArray[targetPid];
+         pcbArray[targetPid] = NULL;
+      }
 
       // Assuming you've found the PCB for targetPid in the PCB array:
       // 1. Recursively destroy all descendants of targetPid, if it
@@ -101,6 +124,24 @@ class Version1 {
         for printing. It's your choice. 
      */
      void showProcessInfo() {
+        for(int i = 0; i < MAX_SIZE_1; ++i){
+            if(pcbArray[i] != nullptr){
+                cout << "Process " << i << ": ";
+                cout << "parent is " << pcbArray[i]->getParent() << " and ";
+
+                auto children = pcbArray[i]->getChildren();
+                if(!children->empty()){
+                    cout << "children are ";
+                    for(int child: *children){
+                        cout << child << " ";
+                    }
+                }
+                else{
+                    cout << "has no children";
+                }
+                cout << endl;
+            }
+        }
 
      }
 
