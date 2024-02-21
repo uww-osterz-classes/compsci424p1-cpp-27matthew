@@ -29,12 +29,15 @@
 // Remember: use <angle brackets> for standard C++ headers/libraries
 // and "double quotes" for headers in the same directory as this file.
 #include <iostream>
+#include "version2PCB.h"
 
 using namespace std; // I normally use this, but feel free to delete it
 
-class Version2 {
-   private: // it's good OOP practice to make data members private
+const int MAX_SIZE_1 = 16;
 
+class Version2 {
+    private: // it's good OOP practice to make data members private
+    Version2PCB** pcbArray;
 
    public:  // all methods are normally public
      Version2() { 
@@ -42,6 +45,8 @@ class Version2 {
       initialize the PCB array, create the PCB for process 0, and do
       any other initialization that is needed. 
       */ 
+      pcbArray = new Version2PCB * [MAX_SIZE_1] {};
+      pcbArray[0] = new Version2PCB(-1);
      }
 
      ~Version2() {
@@ -49,6 +54,7 @@ class Version2 {
       the lifetime of this object, and you haven't yet "delete"d
       it, "delete" it (using the "delete" keyword) here.
       */
+     delete[] pcbArray;
      }
 
      /* Creates a new child process of process with ID parentPid. 
@@ -57,6 +63,15 @@ class Version2 {
       // If parentPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt.
+      if(pcbArray[parentPid] != NULL){
+        for(int i = 0; i < MAX_SIZE_1; i++){
+            if(pcbArray[i] == NULL){
+                pcbArray[i] = new Version2PCB(parentPid);
+                pcbArray[parentPid]->addChild(i); // cant use add child
+                break;
+            }
+        }
+      }
 
       // Assuming you've found the PCB for parentPid in the PCB array:
       // 1. Allocate and initialize a free PCB object from the array
