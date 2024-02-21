@@ -93,7 +93,7 @@ class Version1 {
       // but it should not halt
       if(pcbArray[targetPid] != NULL){
         while(!pcbArray[targetPid]->getChildren()->empty()){
-            destroy(pcbArray[targetPid]->getChildren()->front());
+            destroy(pcbArray[targetPid]->getChildren()->back());
         }
         if(pcbArray[targetPid]->getParent() != -1){
             pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
