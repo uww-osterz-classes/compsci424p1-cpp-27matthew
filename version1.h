@@ -91,17 +91,12 @@ class Version1 {
       // If targetPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt
+        
       if(pcbArray[targetPid] != NULL){
-        while(!pcbArray[targetPid]->getChildren()->empty()){
-            destroy(pcbArray[targetPid]->getChildren()->front()); // back?
-        }
-      }
-
-      if(pcbArray[targetPid]->getParent() != -1 && pcbArray[targetPid] != nullptr){
-         pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
-      }
-
-      if(pcbArray[targetPid] != nullptr){
+         while(!pcbArray[targetPid]->getChildren()->empty()){
+            destroy(pcbArray[targetPid]->getChildren()->front());
+         }
+         pcbArray[pcbArray[targetPid]->getParent()]->removeChild(targetPid);
          delete pcbArray[targetPid];
          pcbArray[targetPid] = NULL;
       }
