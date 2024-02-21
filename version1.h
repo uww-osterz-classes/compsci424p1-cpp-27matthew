@@ -92,13 +92,23 @@ class Version1 {
       // your code may return an error code or message in this case,
       // but it should not halt
       if(pcbArray[targetPid] != NULL){
-         while(!pcbArray[targetPid]->getChildren()->empty()){
+        while(!pcbArray[targetPid]->getChildren()->empty()){
             destroy(pcbArray[targetPid]->getChildren()->front());
-         }
-         pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
-         delete pcbArray[targetPid];
-         pcbArray[targetPid] = NULL;
+        }
+        if(pcbArray[targetPid]->getParent() != -1){
+            pcbArray[pcbArray[targetPid]->getParent()]->removeChild();
+        }
+
+        delete pcbArray[targetPid];
+        pcbArray[targetPid] = NULL;
+        
       }
+
+        // create 0
+        // create 1
+        // destroy 1
+        // destroy 2
+        // end
 
       // Assuming you've found the PCB for targetPid in the PCB array:
       // 1. Recursively destroy all descendants of targetPid, if it
