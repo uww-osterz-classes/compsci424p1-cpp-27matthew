@@ -13,6 +13,8 @@
 // Remember: use <angle brackets> for standard C++ headers/libraries
 // and "double quotes" for headers in the same directory as this file.
 #include <iostream>
+#include <string>
+#include <vector>
 #include "version1.h" // file containing Version 1 code
 #include "version2.h" // file containing Version 2 code
 
@@ -25,6 +27,49 @@ int main(int argc, char *argv[]) {
 
    // 1. Ask the user to enter commands of the form "create N", 
    //   "destroy N", or "end", where N is an integer between 0 and 15.
+   vector<string> command_list;
+   bool valid = true;
+   string answer;
+
+   cout << "Enter create N, destroy N, or end, where N is an integer between 0 and 15 " << endl;
+   getline(cin, answer);
+
+   while(valid){
+
+    size_t space_pos = answer.find(" ");
+
+    if (space_pos != string::npos && space_pos != 0) {
+
+        string command = answer.substr(0, answer.find(" "));
+        int N = stoi(answer.substr(answer.find(" ") + 1));
+
+        if(command == "create" && N >= 0 && N <= 15){
+            valid = true;
+            //cout << command << endl;
+            //cout << N << endl;
+            command_list.push_back(answer);
+        }
+        else if(command == "destroy" && N >= 0 && N <= 15){
+            valid = true;
+            command_list.push_back(answer);
+        }
+        else{
+            valid = false;
+        }
+
+    }
+    else{
+        valid = false;
+    }
+
+    if(valid){
+        cout << "Enter create N, destroy N, or end, where N is an integer between 0 and 15 " << endl;
+        getline(cin, answer);
+    }
+
+   }
+   
+   
 
    // 2. While the user has not typed "end", continue accepting
    //    commands. Add each command to a list of actions to take while
@@ -38,9 +83,24 @@ int main(int argc, char *argv[]) {
    // 4. Create an object of the Version 1 class and an object of the
    //    Version 2 class.
 
+   Version1* v1 = new Version1();  // delete later
+   Version2* v2 = new Version2();  // delete later
+
    // 5. Run the command sequence once with the Version 1 object, 
    //    calling its showProcessTree method after each command to show
    //    the changes in the tree after each command.
+
+   for (int i = 0; i < command_list.size(); i++) {
+        if (command_list[i].substr(0, 6) == "create") {
+            int N = stoi(command_list[i].substr(7));
+            v1->create(N);
+        } else if (command_list[i].substr(0, 7) == "destroy") {
+            int N = stoi(command_list[i].substr(8));
+            v1->destroy(N);
+        }
+        v1->showProcessInfo();
+    }
+    
 
    // 6. Repeat step 5, but with the Version 2 object.
 
