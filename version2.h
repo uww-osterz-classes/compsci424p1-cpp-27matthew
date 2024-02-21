@@ -33,7 +33,7 @@
 
 using namespace std; // I normally use this, but feel free to delete it
 
-const int MAX_SIZE_1 = 16;
+const int MAX_SIZE_2 = 16;
 
 class Version2 {
     private: // it's good OOP practice to make data members private
@@ -45,7 +45,7 @@ class Version2 {
       initialize the PCB array, create the PCB for process 0, and do
       any other initialization that is needed. 
       */ 
-      pcbArray = new Version2PCB * [MAX_SIZE_1] {};
+      pcbArray = new Version2PCB * [MAX_SIZE_2] {};
       pcbArray[0] = new Version2PCB(-1);
      }
 
@@ -64,7 +64,7 @@ class Version2 {
       // your code may return an error code or message in this case,
       // but it should not halt.
       if(pcbArray[parentPid] != NULL){
-        for(int i = 0; i < MAX_SIZE_1; i++){
+        for(int i = 0; i < MAX_SIZE_2; i++){
             if(pcbArray[i] == NULL){
                 pcbArray[i] = new Version2PCB(parentPid);
                 pcbArray[parentPid]->addChild(i); // cant use add child
