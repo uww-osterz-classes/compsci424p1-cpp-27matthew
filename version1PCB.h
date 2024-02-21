@@ -24,9 +24,10 @@ public:
         children.push_back(child);
     }
 
-    void removeChild() {
-        if (!children.empty()) {
-            children.pop_back();
+    void removeChild(int targetPid) {
+        auto it = find(children.begin(), children.end(), targetPid);
+        if (it != children.end()) {
+            children.erase(it);
         }
     }
 };
