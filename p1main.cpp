@@ -1,5 +1,5 @@
 /* COMPSCI 424 Program 1
-   Name:
+   Name: Matthew Buske
    
    p1main.cpp: contains the main function for this program.
 
@@ -120,8 +120,8 @@ int main(int argc, char *argv[]) {
     cout << endl;
    // 7. Store the current system time in a variable
 
-   clock_t start = clock();
-   cout << "clock before: " << start << endl;
+   clock_t startV1 = clock();
+   //cout << "clock before: " << start << endl;
 
    for(int i = 0; i < 200000; i++){
     for (int i = 0; i < command_list.size(); i++) {
@@ -135,10 +135,10 @@ int main(int argc, char *argv[]) {
     }
    }
 
-   clock_t end = clock();
-   cout << "clock after: " << end << endl;
+   clock_t endV1 = clock();
+   //cout << "clock after: " << end << endl;
 
-   cout << "Running time: " << end - start << endl;
+   cout << "Running time for version 1: " << endV1 - startV1 << endl;
 
 
    // ... then run the command sequence 200 times with Version 1.
@@ -152,8 +152,8 @@ int main(int argc, char *argv[]) {
 
     cout << endl;
 
-   clock_t start2 = clock();
-   cout << "clock before: " << start2 << endl;
+   clock_t startV2 = clock();
+   //cout << "clock before: " << start2 << endl;
 
    for(int i = 0; i < 200000; i++){
     for (int i = 0; i < command_list.size(); i++) {
@@ -167,10 +167,10 @@ int main(int argc, char *argv[]) {
     }
    }
 
-   clock_t end2 = clock();
-   cout << "clock after: " << end2 << endl;
+   clock_t endV2 = clock();
+   //cout << "clock after: " << end2 << endl;
 
-   cout << "Running time: " << end2 - start2 << endl;
+   cout << "Running time for version 2: " << endV2 - startV2 << endl;
 
    // Don't forget to delete anything that you created with "new"!
 
