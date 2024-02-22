@@ -63,16 +63,29 @@ class Version2 {
       // If parentPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt.
+      
       if(pcbArray[parentPid] != NULL){
         for(int i = 0; i < MAX_SIZE_2; i++){
             if(pcbArray[i] == NULL){
                 pcbArray[i] = new Version2PCB(parentPid);
-                pcbArray[parentPid]->addChild(i); // cant use add child
+                if(pcbArray[parentPid]->getFirstChild() == NULL){
+                    pcbArray[parentPid]->setFirstChild(i);
+                }
+                else{
+                    int older = -1;
+                    for(int j = 0; j < i; j++){
+                        if(pcbArray[j]->getParent() == parentPid){
+                            older = j;
+                        }
+                    }
+                    pcbArray[i]->setOlderSibling(older);
+                    pcbArray[older]->setYoungerSibling(i);
+                }
                 break;
             }
         }
       }
-
+     
       // Assuming you've found the PCB for parentPid in the PCB array:
       // 1. Allocate and initialize a free PCB object from the array
       //    of PCB objects
@@ -84,6 +97,8 @@ class Version2 {
       return 0; // often means "success" or "terminated normally"
      }
 
+     
+
      /* Recursively destroys the process with ID parentPid and all of
         its descendant processes (child, grandchild, etc.).
      */
@@ -91,6 +106,36 @@ class Version2 {
       // If targetPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt
+
+    if(pcbArray[targetPid] != NULL){
+        if(pcbArray[targetPid]->getFirstChild() != NULL){
+            if(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling() != NULL){
+                destroy(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling());
+            }
+            destroy(pcbArray[targetPid]->getFirstChild());
+            destroy(targetPid);
+        }
+        else{
+            if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
+                pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(NULL);
+            }
+            else if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
+                pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(pcbArray[targetPid]->getYoungerSibling());
+                pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(NULL);
+            }
+            else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
+                pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(NULL);
+            }
+            else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
+                pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(pcbArray[targetPid]->getYoungerSibling());
+                pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(pcbArray[targetPid]->getOlderSibling());
+            }
+            delete pcbArray[targetPid];
+            pcbArray[targetPid] = NULL;
+        }
+    }
+        
+    
 
       // Assuming you've found the PCB for targetPid in the PCB array:
       // 1. Recursively destroy all descendants of targetPid, if it
@@ -117,6 +162,23 @@ class Version2 {
         for printing. It's your choice. 
      */
      void showProcessInfo() {
+        for (int i = 0; i < MAX_SIZE_2; ++i) {
+            if (pcbArray[i] != nullptr) {
+                cout << "Process " << i << ": ";
+                cout << "parent is " << pcbArray[i]->getParent() << " and ";
+                int child = pcbArray[i]->getFirstChild();
+                if (child != -1) {
+                    cout << "children are ";
+                    while (child != -1) {
+                        cout << child << " ";
+                        child = pcbArray[child]->getYoungerSibling();
+                    }
+                } else {
+                    cout << "has no children";
+                }
+                cout << endl;
+            }
+        }
 
      }
 
