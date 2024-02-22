@@ -64,12 +64,10 @@ class Version2 {
       // your code may return an error code or message in this case,
       // but it should not halt.
 
-        //cout << "In create" << endl;
         if(pcbArray[parentPid] != NULL){
             for(int i = 0; i < MAX_SIZE_2; i++){
                 if(pcbArray[i] == NULL){
                     pcbArray[i] = new Version2PCB(parentPid);
-                    //cout << "created new pcb";
                     if(pcbArray[parentPid]->getFirstChild() == -1){
                         pcbArray[parentPid]->setFirstChild(i);
                     }
@@ -99,8 +97,6 @@ class Version2 {
       return 0; // often means "success" or "terminated normally"
      }
 
-     
-
      /* Recursively destroys the process with ID parentPid and all of
         its descendant processes (child, grandchild, etc.).
      */
@@ -109,35 +105,31 @@ class Version2 {
       // your code may return an error code or message in this case,
       // but it should not halt
 
-        if(pcbArray[targetPid] != NULL){
-            if(pcbArray[targetPid]->getFirstChild() != NULL){
-                if(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling() != NULL){
-                    destroy(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling());
-                }
-                destroy(pcbArray[targetPid]->getFirstChild());
-                destroy(targetPid);
-            }
-            else{
-                if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
-                    pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(-1);
-                }
-                else if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
-                    pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(pcbArray[targetPid]->getYoungerSibling());
-                    pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(-1);
-                }
-                else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
-                    pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(-1);
-                }
-                else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
-                    pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(pcbArray[targetPid]->getYoungerSibling());
-                    pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(pcbArray[targetPid]->getOlderSibling());
-                }
-                delete pcbArray[targetPid];
-                pcbArray[targetPid] = NULL;
-            }
+        int firstChild = pcbArray[targetPid]->getFirstChild();
+        while (firstChild != -1) {
+            destroy(firstChild);
+            firstChild = pcbArray[targetPid]->getFirstChild(); 
         }
+
+        int parentPid = pcbArray[targetPid]->getParent();
+        int olderSibling = pcbArray[targetPid]->getOlderSibling();
+        int youngerSibling = pcbArray[targetPid]->getYoungerSibling();
+
+        if (parentPid != -1 && pcbArray[parentPid] != nullptr && pcbArray[parentPid]->getFirstChild() == targetPid) {
+            pcbArray[parentPid]->setFirstChild(youngerSibling);
+        }
+
+        if (olderSibling != -1 && pcbArray[olderSibling] != nullptr) {
+            pcbArray[olderSibling]->setYoungerSibling(youngerSibling);
+        }
+
+        if (youngerSibling != -1 && pcbArray[youngerSibling] != nullptr) {
+            pcbArray[youngerSibling]->setOlderSibling(olderSibling);
+        }
+       
+        delete pcbArray[targetPid];
+        pcbArray[targetPid] = NULL;
         
-    
 
       // Assuming you've found the PCB for targetPid in the PCB array:
       // 1. Recursively destroy all descendants of targetPid, if it
