@@ -15,6 +15,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <ctime>
 #include "version1.h" // file containing Version 1 code
 #include "version2.h" // file containing Version 2 code
 
@@ -69,7 +70,6 @@ int main(int argc, char *argv[]) {
 
    }
    
-   
 
    // 2. While the user has not typed "end", continue accepting
    //    commands. Add each command to a list of actions to take while
@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
    //    calling its showProcessTree method after each command to show
    //    the changes in the tree after each command.
 
+    
    for (int i = 0; i < command_list.size(); i++) {
         if (command_list[i].substr(0, 6) == "create") {
             int N = stoi(command_list[i].substr(7));
@@ -101,11 +102,45 @@ int main(int argc, char *argv[]) {
         v1->showProcessInfo();
     }
     
-
+    cout << endl;
    // 6. Repeat step 5, but with the Version 2 object.
 
+   for (int i = 0; i < command_list.size(); i++) {
+        if (command_list[i].substr(0, 6) == "create") {
+            int N = stoi(command_list[i].substr(7));
+            v2->create(N);
+        } else if (command_list[i].substr(0, 7) == "destroy") {
+            int N = stoi(command_list[i].substr(8));
+            v2->destroy(N);
+        }
+        v2->showProcessInfo();
+    }
+    
+    
+    cout << endl;
    // 7. Store the current system time in a variable
-   
+
+   clock_t start = clock();
+   cout << "clock before: " << start << endl;
+
+   for(int i = 0; i < 200000; i++){
+    for (int i = 0; i < command_list.size(); i++) {
+        if (command_list[i].substr(0, 6) == "create") {
+            int N = stoi(command_list[i].substr(7));
+            v1->create(N);
+        } else if (command_list[i].substr(0, 7) == "destroy") {
+            int N = stoi(command_list[i].substr(8));
+            v1->destroy(N);
+        }
+    }
+   }
+
+   clock_t end = clock();
+   cout << "clock after: " << end << endl;
+
+   cout << "Running time: " << end - start << endl;
+
+
    // ... then run the command sequence 200 times with Version 1.
 
    // ... After this, store the new current system time in a second
@@ -114,6 +149,28 @@ int main(int argc, char *argv[]) {
    //     running time.
 
    // 8. Repeat step 7, but with the Version 2 object.
+
+    cout << endl;
+
+   clock_t start2 = clock();
+   cout << "clock before: " << start2 << endl;
+
+   for(int i = 0; i < 200000; i++){
+    for (int i = 0; i < command_list.size(); i++) {
+        if (command_list[i].substr(0, 6) == "create") {
+            int N = stoi(command_list[i].substr(7));
+            v2->create(N);
+        } else if (command_list[i].substr(0, 7) == "destroy") {
+            int N = stoi(command_list[i].substr(8));
+            v2->destroy(N);
+        }
+    }
+   }
+
+   clock_t end2 = clock();
+   cout << "clock after: " << end2 << endl;
+
+   cout << "Running time: " << end2 - start2 << endl;
 
    // Don't forget to delete anything that you created with "new"!
 
