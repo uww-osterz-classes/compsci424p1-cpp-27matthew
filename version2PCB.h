@@ -8,7 +8,11 @@ private:
     int parent, first_child, younger_sibling, older_sibling;
     
 public:
-    Version2PCB(int parent) : parent(parent) {}
+    Version2PCB(int parent) : parent(parent) {
+        first_child = -1;
+        younger_sibling = -1;
+        older_sibling = -1;
+    }
 
     int getParent() const {
         return parent;
@@ -38,6 +42,7 @@ public:
         older_sibling = sibling;
     }
 
+    /*
     void addChild(int child){
         if(first_child == -1){
             first_child = child;
@@ -52,6 +57,7 @@ public:
             Version2PCB(child).setOlderSibling(last_child);
         }
     }
+    */
 
     
 };
