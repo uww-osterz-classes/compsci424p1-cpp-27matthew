@@ -119,14 +119,14 @@ class Version2 {
             }
             else{
                 if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
-                    pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(0);
+                    pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(-1);
                 }
                 else if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
                     pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(pcbArray[targetPid]->getYoungerSibling());
-                    pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(NULL);
+                    pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(-1);
                 }
                 else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
-                    pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(NULL);
+                    pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(-1);
                 }
                 else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
                     pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(pcbArray[targetPid]->getYoungerSibling());
