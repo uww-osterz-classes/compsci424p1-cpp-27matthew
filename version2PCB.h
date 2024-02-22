@@ -42,24 +42,6 @@ public:
         older_sibling = sibling;
     }
 
-    /*
-    void addChild(int child){
-        if(first_child == -1){
-            first_child = child;
-        }
-        else{
-            int last_child = first_child;
-            while(Version2PCB(last_child).getYoungerSibling() != -1){
-                last_child = Version2PCB(last_child).getYoungerSibling();
-            }
-
-            Version2PCB(last_child).setYoungerSibling(child);
-            Version2PCB(child).setOlderSibling(last_child);
-        }
-    }
-    */
-
-    
 };
 
 #endif  // VERSION1PCB_H
