@@ -63,12 +63,14 @@ class Version2 {
       // If parentPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt.
-      
+
+        //cout << "In create" << endl;
         if(pcbArray[parentPid] != NULL){
             for(int i = 0; i < MAX_SIZE_2; i++){
                 if(pcbArray[i] == NULL){
                     pcbArray[i] = new Version2PCB(parentPid);
-                    if(pcbArray[parentPid]->getFirstChild() == NULL){
+                    //cout << "created new pcb";
+                    if(pcbArray[parentPid]->getFirstChild() == -1){
                         pcbArray[parentPid]->setFirstChild(i);
                     }
                     else{
@@ -162,8 +164,8 @@ class Version2 {
         for printing. It's your choice. 
      */
      void showProcessInfo() {
-        for (int i = 0; i < MAX_SIZE_2; ++i) {
-            if (pcbArray[i] != nullptr) {
+        for (int i = 0; i < MAX_SIZE_2; i++) {
+            if (pcbArray[i] != NULL) {
                 cout << "Process " << i << ": ";
                 cout << "parent is " << pcbArray[i]->getParent() << " and ";
                 int child = pcbArray[i]->getFirstChild();
