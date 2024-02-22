@@ -91,7 +91,8 @@ class Version1 {
       // If targetPid is not in the process hierarchy, do nothing; 
       // your code may return an error code or message in this case,
       // but it should not halt
-        
+      
+      
       if(pcbArray[targetPid] != NULL){
          while(!pcbArray[targetPid]->getChildren()->empty()){
             destroy(pcbArray[targetPid]->getChildren()->front());
@@ -100,6 +101,7 @@ class Version1 {
          delete pcbArray[targetPid];
          pcbArray[targetPid] = NULL;
       }
+   
 
         // create 0
         // create 1
@@ -131,7 +133,7 @@ class Version1 {
         for printing. It's your choice. 
      */
      void showProcessInfo() {
-        for(int i = 0; i < MAX_SIZE_1; ++i){
+        for(int i = 0; i < MAX_SIZE_1; i++){
             if(pcbArray[i] != nullptr){
                 cout << "Process " << i << ": ";
                 cout << "parent is " << pcbArray[i]->getParent() << " and ";
