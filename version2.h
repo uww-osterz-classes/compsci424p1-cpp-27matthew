@@ -64,11 +64,11 @@ class Version2 {
       // your code may return an error code or message in this case,
       // but it should not halt.
       
-        if(pcbArray[parentPid] != 0){
+        if(pcbArray[parentPid] != NULL){
             for(int i = 0; i < MAX_SIZE_2; i++){
-                if(pcbArray[i] == 0){
+                if(pcbArray[i] == NULL){
                     pcbArray[i] = new Version2PCB(parentPid);
-                    if(pcbArray[parentPid]->getFirstChild() == 0){
+                    if(pcbArray[parentPid]->getFirstChild() == NULL){
                         pcbArray[parentPid]->setFirstChild(i);
                     }
                     else{
@@ -107,31 +107,31 @@ class Version2 {
       // your code may return an error code or message in this case,
       // but it should not halt
 
-        if(pcbArray[targetPid] != 0){
-            if(pcbArray[targetPid]->getFirstChild() != 0){
-                if(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling() != 0){
+        if(pcbArray[targetPid] != NULL){
+            if(pcbArray[targetPid]->getFirstChild() != NULL){
+                if(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling() != NULL){
                     destroy(pcbArray[pcbArray[targetPid]->getFirstChild()]->getYoungerSibling());
                 }
                 destroy(pcbArray[targetPid]->getFirstChild());
                 destroy(targetPid);
             }
             else{
-                if(pcbArray[targetPid]->getOlderSibling() == 0 && pcbArray[targetPid]->getYoungerSibling() == 0){
+                if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
                     pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(0);
                 }
-                else if(pcbArray[targetPid]->getOlderSibling() == 0 && pcbArray[targetPid]->getYoungerSibling() != 0){
+                else if(pcbArray[targetPid]->getOlderSibling() == NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
                     pcbArray[pcbArray[targetPid]->getParent()]->setFirstChild(pcbArray[targetPid]->getYoungerSibling());
-                    pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(0);
+                    pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(NULL);
                 }
-                else if(pcbArray[targetPid]->getOlderSibling() != 0 && pcbArray[targetPid]->getYoungerSibling() == 0){
-                    pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(0);
+                else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() == NULL){
+                    pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(NULL);
                 }
-                else if(pcbArray[targetPid]->getOlderSibling() != 0 && pcbArray[targetPid]->getYoungerSibling() != 0){
+                else if(pcbArray[targetPid]->getOlderSibling() != NULL && pcbArray[targetPid]->getYoungerSibling() != NULL){
                     pcbArray[pcbArray[targetPid]->getOlderSibling()]->setYoungerSibling(pcbArray[targetPid]->getYoungerSibling());
                     pcbArray[pcbArray[targetPid]->getYoungerSibling()]->setOlderSibling(pcbArray[targetPid]->getOlderSibling());
                 }
                 delete pcbArray[targetPid];
-                pcbArray[targetPid] = 0;
+                pcbArray[targetPid] = NULL;
             }
         }
         
