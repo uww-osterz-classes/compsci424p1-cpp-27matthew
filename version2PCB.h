@@ -14,27 +14,27 @@ public:
         return parent;
     }
 
-    int get_first_child(){
+    int getFirstChild(){
         return first_child;
     }
 
-    int get_younger_sibling(){
+    int getYoungerSibling(){
         return younger_sibling;
     }
 
-    int get_older_sibling(){
+    int getOlderSibling(){
         return older_sibling;
     }
 
-    void set_first_child(int child){
+    void setFirstChild(int child){
         first_child = child;
     }
 
-    void set_younger_sibling(int sibling){
+    void setYoungerSibling(int sibling){
         younger_sibling = sibling;
     }
 
-    void set_older_sibling(int sibling){
+    void setOlderSibling(int sibling){
         older_sibling = sibling;
     }
 
@@ -44,12 +44,12 @@ public:
         }
         else{
             int last_child = first_child;
-            while(Version2PCB(last_child).get_younger_sibling() != -1){
-                last_child = Version2PCB(last_child).get_younger_sibling();
+            while(Version2PCB(last_child).getYoungerSibling() != -1){
+                last_child = Version2PCB(last_child).getYoungerSibling();
             }
 
-            Version2PCB(last_child).set_younger_sibling(child);
-            Version2PCB(child).set_older_sibling(last_child);
+            Version2PCB(last_child).setYoungerSibling(child);
+            Version2PCB(child).setOlderSibling(last_child);
         }
     }
 
